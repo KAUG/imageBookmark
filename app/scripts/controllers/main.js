@@ -30,8 +30,9 @@ angular.module('imageBookmarkApp')
   .controller('MainCtrl', function ($scope) {
     $scope.images = initImages();
 
-    $scope.deleteImage = function(image) {
-      delete $scope.images[image.id];
-      $scope.images = _.compact($scope.images);
+    $scope.deleteImage = function(targetImage) {
+      $scope.images = _.reject($scope.images, function(image) {
+        return image.id === targetImage.id;
+      });
     };
   });

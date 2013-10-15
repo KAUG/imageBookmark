@@ -40,9 +40,9 @@ function initImages() {
     },
   ];
 
-  for (var index in images) {
-    images[index].id = index;
-  }
+  _.each(images, function(image, index) {
+    image.id = index;
+  });
 
   return images;
 }

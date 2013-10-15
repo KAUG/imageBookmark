@@ -1,7 +1,7 @@
 'use strict';
 
-function initImages($scope) {
-  $scope.images = [
+function initImages() {
+  var images = [
     {
       title: 'Google Logo',
       url: "http://allaboutetp.files.wordpress.com/2012/07/google-logo2.jpeg"
@@ -40,18 +40,19 @@ function initImages($scope) {
     },
   ];
 
-  for (var index in $scope.images) {
-    $scope.images[index].id = index;
+  for (var index in images) {
+    images[index].id = index;
   }
+
+  return images;
 }
 
 angular.module('imageBookmarkApp')
   .controller('MainCtrl', function ($scope) {
-    initImages($scope);
+    $scope.images = initImages();
 
     $scope.deleteImage = function(image) {
       delete $scope.images[image.id];
       $scope.images = _.compact($scope.images);
-      //$scope.images.remove(image.id, image.id);
     };
   });

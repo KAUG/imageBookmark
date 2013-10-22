@@ -1,11 +1,11 @@
 <div id="gallery" class="row">
   <ul class="thumbnails">
-    <li class="span3" ng-repeat="image in images">
-      <a href="#" class="thumbnail">
-        <img src="{{ image.url }}" alt="">
-        <h3>{{ image.title }}</h3>
+    <li class="span3 thumbnail" ng-repeat="image in images" ng-mouseenter="isVisibleDeleteButton = true" ng-mouseleave="isVisibleDeleteButton = false">
+      <img src="{{ image.url }}" alt="">
+      <h3>{{ image.title }}</h3>
+      <div class="DelBtn" ng-show="isVisibleDeleteButton">
         <a href="" class="btn" ng-click="deleteImage(image)">Delete</a>
-      </a>
+      </div>
     </li>
   </ul>
 </div>

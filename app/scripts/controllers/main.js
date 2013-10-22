@@ -16,7 +16,7 @@ function initImages() {
     },
   ];
 
-  return _.map(_.range(21), function(index) {
+  return _.map(_.range(4), function(index) {
     var imageData = imageDatas[index % imageDatas.length];
     return {
       id: index,
@@ -29,6 +29,14 @@ function initImages() {
 angular.module('imageBookmarkApp')
   .controller('MainCtrl', function ($scope) {
     $scope.images = initImages();
+    var image_id = $scope.images.length;
+
+    $scope.addImage = function() {
+      var url = prompt('Input Image URL');
+      var title = prompt('Input Title');
+      image_id++;
+      $scope.images.push({id:image_id, title:title, url:url});
+    };
 
     $scope.deleteImage = function(targetImage) {
       $scope.images = _.reject($scope.images, function(image) {

@@ -1,4 +1,5 @@
 <div id="gallery" class="row">
+  <a href="" class="btn" ng-click="addImage()">Add image</a>
   <ul class="thumbnails">
     <li class="span3 thumbnail" ng-repeat="image in images" ng-mouseenter="isVisibleDeleteButton = true" ng-mouseleave="isVisibleDeleteButton = false">
       <img src="{{ image.url }}" alt="">

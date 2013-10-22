@@ -14,3 +14,13 @@ body {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+#gallery li{
+  position: relative;
+}
+
+.DelBtn {
+  position: absolute;
+  top:0;
+  right: 0;
+}

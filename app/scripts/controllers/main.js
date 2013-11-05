@@ -22,20 +22,31 @@ function getNewImageId(images) {
   }
 }
 
+function loadImages($scope, images) {
+  _.each(images, function(image) {
+    image.uri = null;
+    loadImage(image.url, function(blob_uri, requested_uri) {
+      image.uri = blob_uri;
+    });
+  });
+  $scope.$apply(function() {
+    $scope.images = images;
+  });
+}
+
+function saveImages(images) {
+  chrome.storage.sync.set({
+    images: images
+  }, function() {
+    // do nothing...
+  });
+}
+
 angular.module('imageBookmarkApp')
   .controller('MainCtrl', function ($scope) {
     $scope.images = [];
     chrome.storage.sync.get(['images'], function(items) {
-      var images = items.images || [];
-      _.each(images, function(image) {
-        image.uri = null;
-        loadImage(image.url, function(blob_uri, requested_uri) {
-          image.uri = blob_uri;
-        });
-      });
-      $scope.$apply(function() {
-        $scope.images = images;
-      });
+      loadImages(items.images || []);
     });
 
     $scope.addImage = function() {
@@ -47,11 +58,7 @@ angular.module('imageBookmarkApp')
         url: url
       };
       $scope.images.push(image);
-      chrome.storage.sync.set({
-        images: $scope.images
-      }, function() {
-        // do nothing...
-      });
+      saveImages($scope.images);
       loadImage(image.url, function(blob_uri, requested_uri) {
         image.uri = blob_uri;
       });

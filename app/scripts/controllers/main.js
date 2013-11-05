@@ -28,14 +28,22 @@ function initImages() {
 
 angular.module('imageBookmarkApp')
   .controller('MainCtrl', function ($scope) {
-    $scope.images = initImages();
+    $scope.images = [];
+    chrome.storage.sync.get(['images'], function(items) {
+      $scope.images = items.images || [];
+    });
     var image_id = $scope.images.length;
 
     $scope.addImage = function() {
-      var url = prompt('Input Image URL');
-      var title = prompt('Input Title');
+      var url = 'http://hooney.net/wp/wp-content/uploads/2007/05/google-kr.png';
+      var title = 'Google Screenshot';
       image_id++;
       $scope.images.push({id:image_id, title:title, url:url});
+      chrome.storage.sync.set({
+        images: $scope.images
+      }, function() {
+        // do nothing...
+      });
     };
 
     $scope.deleteImage = function(targetImage) {

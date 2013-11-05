@@ -5,8 +5,9 @@
   "description": "This extension bookmarks your favorite images.",
   "version": "0.1",
 
-   "permissions": [
-    "http://*/*"
+  "permissions": [
+    // http://developer.chrome.com/extensions/storage.html
+    "storage"
   ],
 
   "browser_action": {

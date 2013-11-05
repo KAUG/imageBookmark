@@ -1,27 +1,5 @@
 'use strict';
 
-if (chrome.storage == undefined) {
-  chrome.storage = {
-    sync: {
-      set: function(items, callback) {
-        setTimeout(function() {
-          callback();
-        }, 1);
-      },
-      get: function(keys, callback) {
-        setTimeout(function() {
-          callback(keys, {});
-        }, 1);
-      }
-    }
-  };
-  loadImage = function(uri, callback) {
-    setTimeout(function() {
-      callback(uri, uri);
-    }, 1);
-  };
-}
-
 // http://developer.chrome.com/apps/app_codelab8_webresources.html
 var loadImage = function(uri, callback) {
   var xhr = new XMLHttpRequest();
@@ -82,3 +60,27 @@ angular.module('imageBookmarkApp')
       });
     };
   });
+
+// for Development environment
+
+if (chrome.storage == undefined) {
+  chrome.storage = {
+    sync: {
+      set: function(items, callback) {
+        setTimeout(function() {
+          callback();
+        }, 1);
+      },
+      get: function(keys, callback) {
+        setTimeout(function() {
+          callback(keys, {});
+        }, 1);
+      }
+    }
+  };
+  loadImage = function(uri, callback) {
+    // setTimeout(function() {
+      callback(uri, uri);
+    // }, 1);
+  };
+}

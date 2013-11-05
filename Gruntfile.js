@@ -250,7 +250,8 @@ module.exports = function (grunt) {
             'bower_components/**/*',
             'images/{,*/}*.{gif,webp}',
             'styles/fonts/*',
-            'manifest.json'
+            'manifest.json',
+            'background.js'
           ]
         }, {
           expand: true,

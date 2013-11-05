@@ -1,41 +1,67 @@
 'use strict';
 
-function initImages() {
-  var imageDatas = [
-    {
-      title: 'Google Logo',
-      url: "http://allaboutetp.files.wordpress.com/2012/07/google-logo2.jpeg"
-    },
-    {
-      title: 'Google Letter',
-      url: "http://cfs7.blog.daum.net/original/27/blog/2007/11/16/13/57/473d2334a5973"
-    },
-    {
-      title: 'Google Screenshot',
-      url: "http://hooney.net/wp/wp-content/uploads/2007/05/google-kr.png"
-    },
-  ];
+// http://developer.chrome.com/apps/app_codelab8_webresources.html
+var loadImage = function(uri, callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.responseType = 'blob';
+  xhr.onload = function() {
+    callback(window.webkitURL.createObjectURL(xhr.response), uri);
+  }
+  xhr.open('GET', uri, true);
+  xhr.send();
+}
 
-  return _.map(_.range(4), function(index) {
-    var imageData = imageDatas[index % imageDatas.length];
-    return {
-      id: index,
-      title: imageData.title,
-      url: imageData.url
-    };
+function getNewImageId(images) {
+  if (images.length) {
+    var latestImage = _.max(images, function(image) {
+      return image.id;
+    });
+    return latestImage.id + 1;
+  } else {
+    return 1;
+  }
+}
+
+function loadImages($scope, images) {
+  _.each(images, function(image) {
+    image.uri = null;
+    loadImage(image.url, function(blob_uri, requested_uri) {
+      image.uri = blob_uri;
+    });
+  });
+  $scope.$apply(function() {
+    $scope.images = images;
+  });
+}
+
+function saveImages(images) {
+  chrome.storage.sync.set({
+    images: images
+  }, function() {
+    // do nothing...
   });
 }
 
 angular.module('imageBookmarkApp')
   .controller('MainCtrl', function ($scope) {
-    $scope.images = initImages();
-    var image_id = $scope.images.length;
+    $scope.images = [];
+    chrome.storage.sync.get(['images'], function(items) {
+      loadImages(items.images || []);
+    });
 
     $scope.addImage = function() {
-      var url = prompt('Input Image URL');
-      var title = prompt('Input Title');
-      image_id++;
-      $scope.images.push({id:image_id, title:title, url:url});
+      var url = 'http://hooney.net/wp/wp-content/uploads/2007/05/google-kr.png';
+      var title = 'Google Screenshot';
+      var image = {
+        id: getNewImageId($scope.images),
+        title: title,
+        url: url
+      };
+      $scope.images.push(image);
+      saveImages($scope.images);
+      loadImage(image.url, function(blob_uri, requested_uri) {
+        image.uri = blob_uri;
+      });
     };
 
     $scope.deleteImage = function(targetImage) {
@@ -44,3 +70,27 @@ angular.module('imageBookmarkApp')
       });
     };
   });
+
+// for Development environment
+
+if (chrome.storage == undefined) {
+  chrome.storage = {
+    sync: {
+      set: function(items, callback) {
+        setTimeout(function() {
+          callback();
+        }, 1);
+      },
+      get: function(keys, callback) {
+        setTimeout(function() {
+          callback(keys, {});
+        }, 1);
+      }
+    }
+  };
+  loadImage = function(uri, callback) {
+    setTimeout(function() {
+      callback(uri, uri);
+    }, 1);
+  };
+}

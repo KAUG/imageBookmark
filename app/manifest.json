@@ -5,12 +5,22 @@
   "description": "This extension bookmarks your favorite images.",
   "version": "0.1",
 
-   "permissions": [
-    "http://*/*"
+  "permissions": [
+    // http://developer.chrome.com/extensions/storage.html
+    "storage",
+    // http://developer.chrome.com/apps/app_codelab8_webresources.html
+    "<all_urls>"
   ],
 
-  "browser_action": {
-    "default_icon": "icon.png",
-    "default_popup": "index.html"
+  // https://developer.chrome.com/apps/angular_framework.html
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
   }
+
+  // "browser_action": {
+  //   "default_icon": "icon.png",
+  //   "default_popup": "index.html"
+  // }
 }

@@ -6,10 +6,11 @@ body {
 }
 
 #gallery img {
-    height: 200px;
+    height: 100px;
 }
 
 #gallery h3 {
+    font-size: 1.0em;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

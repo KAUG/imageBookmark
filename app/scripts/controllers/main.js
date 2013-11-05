@@ -28,11 +28,14 @@ angular.module('imageBookmarkApp')
     chrome.storage.sync.get(['images'], function(items) {
       var images = items.images || [];
       _.each(images, function(image) {
+        image.uri = null;
         loadImage(image.url, function(blob_uri, requested_uri) {
           image.uri = blob_uri;
         });
       });
-      $scope.images = images;
+      $scope.$apply(function() {
+        $scope.images = images;
+      });
     });
 
     $scope.addImage = function() {
@@ -79,8 +82,8 @@ if (chrome.storage == undefined) {
     }
   };
   loadImage = function(uri, callback) {
-    // setTimeout(function() {
+    setTimeout(function() {
       callback(uri, uri);
-    // }, 1);
+    }, 1);
   };
 }

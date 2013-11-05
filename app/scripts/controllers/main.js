@@ -33,6 +33,17 @@ var loadImage = function(uri, callback) {
   xhr.send();
 }
 
+function getNewImageId(images) {
+  if (images.length) {
+    var latestImage = _.max(images, function(image) {
+      return image.id;
+    });
+    return latestImage.id + 1;
+  } else {
+    return 1;
+  }
+}
+
 angular.module('imageBookmarkApp')
   .controller('MainCtrl', function ($scope) {
     $scope.images = [];
@@ -45,14 +56,12 @@ angular.module('imageBookmarkApp')
       });
       $scope.images = images;
     });
-    var image_id = $scope.images.length;
 
     $scope.addImage = function() {
       var url = 'http://hooney.net/wp/wp-content/uploads/2007/05/google-kr.png';
       var title = 'Google Screenshot';
-      image_id++;
       var image = {
-        id: image_id,
+        id: getNewImageId($scope.images),
         title: title,
         url: url
       };

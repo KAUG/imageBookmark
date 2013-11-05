@@ -7,7 +7,9 @@
 
   "permissions": [
     // http://developer.chrome.com/extensions/storage.html
-    "storage"
+    "storage",
+    // http://developer.chrome.com/apps/app_codelab8_webresources.html
+    "<all_urls>"
   ],
 
   // https://developer.chrome.com/apps/angular_framework.html

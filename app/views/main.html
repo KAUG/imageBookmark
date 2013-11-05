@@ -2,7 +2,7 @@
   <a href="" class="btn" ng-click="addImage()">Add image</a>
   <ul class="thumbnails">
     <li class="span3 thumbnail" ng-repeat="image in images" ng-mouseenter="isVisibleDeleteButton = true" ng-mouseleave="isVisibleDeleteButton = false">
-      <img src="{{ image.url }}" alt="">
+      <img src="{{ image.uri }}" alt="">
       <h3>{{ image.title }}</h3>
       <div class="DelBtn" ng-show="isVisibleDeleteButton">
         <a href="" class="btn" ng-click="deleteImage(image)">Delete</a>
